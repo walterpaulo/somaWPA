@@ -1,17 +1,22 @@
 package br.com.unoseg.somaWPA.models;
 
+import br.com.unoseg.somaWPA.repositorys.PaymentRepository;
 import br.com.unoseg.somaWPA.services.PaymentService;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.math.BigDecimal;
+import java.util.Optional;
 
 @RunWith(SpringRunner.class)
 public class PaymentServiceTest {
@@ -27,6 +32,18 @@ public class PaymentServiceTest {
 
     @Autowired
     PaymentService paymentService;
+
+    @MockBean
+    PaymentRepository paymentRepository;
+
+    @Before
+    public void setup(){
+        PaymentModel paymentModel = new PaymentModel(1L,"TendTud");
+        paymentModel.paidAccount();
+
+        Mockito.when(paymentRepository.findByAccount(paymentModel.getAccount()))
+                .thenReturn(Optional.of(paymentModel));
+    }
 
     @Test
     public void confirmPayment_test(){
