@@ -40,9 +40,12 @@ public class PaymentServiceTest {
     public void setup(){
         PaymentModel paymentModel = new PaymentModel(1L,"TendTud");
         paymentModel.paidAccount();
-
         Mockito.when(paymentRepository.findByAccount(paymentModel.getAccount()))
                 .thenReturn(Optional.of(paymentModel));
+
+        PaymentModel wpseg = new PaymentModel(2L,"WPseg");
+        Mockito.when(paymentRepository.save(wpseg))
+                .thenReturn(wpseg);
     }
 
     @Test
@@ -50,6 +53,12 @@ public class PaymentServiceTest {
         String account = "TendTud";
         Boolean paymentStatus = paymentService.confirmPaymentaccount(account);
         Assert.assertEquals(paymentStatus, true);
+    }
+    @Test
+    public void findPayment_test(){
+        String account = "WPseg";
+        Optional<PaymentModel> payment = paymentService.findPayment(account);
+        Assert.assertEquals(payment.isEmpty(), false);
     }
 
 }

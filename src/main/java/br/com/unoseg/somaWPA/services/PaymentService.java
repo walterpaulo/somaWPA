@@ -18,4 +18,9 @@ public class PaymentService {
         Optional<PaymentModel> paymentModelOptional = paymentRepository.findByAccount(account);
         return paymentModelOptional.map(p -> p.getPaid()).get();
     }
+
+    public Optional<PaymentModel> findPayment(String account) {
+        Optional<PaymentModel> paymentModel = paymentRepository.findByAccount(account);
+        return paymentModel;
+    }
 }
