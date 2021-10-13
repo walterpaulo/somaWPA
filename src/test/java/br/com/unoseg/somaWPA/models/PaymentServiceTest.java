@@ -8,15 +8,13 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.math.BigDecimal;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RunWith(SpringRunner.class)
 public class PaymentServiceTest {
@@ -44,9 +42,11 @@ public class PaymentServiceTest {
                 .thenReturn(Optional.of(paymentModel));
 
         PaymentModel wpseg = new PaymentModel(2L,"WPseg");
-        Mockito.when(paymentRepository.save(wpseg))
-                .thenReturn(wpseg);
+        wpseg.paidAccount();
+        Mockito.when(paymentRepository.findById(2L)).thenReturn(Optional.of(wpseg));
+
     }
+
 
     @Test
     public void confirmPayment_test(){
@@ -56,9 +56,11 @@ public class PaymentServiceTest {
     }
     @Test
     public void findPayment_test(){
-        String account = "WPseg";
-        Optional<PaymentModel> payment = paymentService.findPayment(account);
-        Assert.assertEquals(payment.isEmpty(), false);
+
+        Long idAccount = 2L;
+        Optional<PaymentModel> payment = paymentService.findBy(idAccount);
+        boolean pay = payment.get().getPaid();
+        Assert.assertEquals(pay, true);
     }
 
 }

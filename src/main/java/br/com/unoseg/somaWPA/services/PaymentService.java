@@ -23,4 +23,7 @@ public class PaymentService {
         Optional<PaymentModel> paymentModel = paymentRepository.findByAccount(account);
         return paymentModel;
     }
+    public Optional<PaymentModel> findBy(Long id){
+        return paymentRepository.findById(id);
+    }
 }
