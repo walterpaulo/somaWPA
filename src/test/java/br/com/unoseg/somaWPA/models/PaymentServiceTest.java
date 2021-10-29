@@ -56,7 +56,6 @@ public class PaymentServiceTest {
     }
     @Test
     public void findPayment_test(){
-
         Long idAccount = 2L;
         Optional<PaymentModel> payment = paymentService.findBy(idAccount);
         boolean pay = payment.get().getPaid();
