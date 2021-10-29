@@ -36,30 +36,31 @@ public class PaymentServiceTest {
 
     @Before
     public void setup(){
-        PaymentModel paymentModel = new PaymentModel(1L,"TendTud");
+        AccountModel ac1 = new AccountModel(2L,"TendTudo");
+        PaymentModel paymentModel = new PaymentModel(1L,ac1);
         paymentModel.paidAccount();
-        Mockito.when(paymentRepository.findByAccount(paymentModel.getAccount()))
+        Mockito.when(paymentRepository.findById(paymentModel.getId()))
                 .thenReturn(Optional.of(paymentModel));
 
-        PaymentModel wpseg = new PaymentModel(2L,"WPseg");
-        wpseg.paidAccount();
-        Mockito.when(paymentRepository.findById(2L)).thenReturn(Optional.of(wpseg));
+//        PaymentModel wpseg = new PaymentModel(2L,new AccountModel("WPseg"));
+//        wpseg.paidAccount();
+//        Mockito.when(paymentRepository.findById(2L)).thenReturn(Optional.of(wpseg));
 
     }
 
 
     @Test
     public void confirmPayment_test(){
-        String account = "TendTud";
-        Boolean paymentStatus = paymentService.confirmPaymentaccount(account);
+        Long accountnumber = 1L;
+        Boolean paymentStatus = paymentService.confirmPaymentaccount(accountnumber);
         Assert.assertEquals(paymentStatus, true);
     }
-    @Test
-    public void findPayment_test(){
-        Long idAccount = 2L;
-        Optional<PaymentModel> payment = paymentService.findBy(idAccount);
-        boolean pay = payment.get().getPaid();
-        Assert.assertEquals(pay, true);
-    }
+//    @Test
+//    public void findPayment_test(){
+//        Long idAccount = 2L;
+//        Optional<PaymentModel> payment = paymentService.findBy(idAccount);
+//        boolean pay = payment.get().getPaid();
+//        Assert.assertEquals(pay, true);
+//    }
 
 }

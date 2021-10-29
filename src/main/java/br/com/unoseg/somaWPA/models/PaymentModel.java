@@ -5,14 +5,14 @@ import java.time.LocalDate;
 
 public class PaymentModel {
     private Long id;
-    private String account;
+
+    private AccountModel account;
     private LocalDate entryDate;
     private LocalDate appointmentDate;
     private Boolean paid;
 
 
-
-    public PaymentModel(Long id, String account) {
+    public PaymentModel(Long id, AccountModel account) {
         this.id = id;
         this.account = account;
         this.entryDate = LocalDate.now();
@@ -27,11 +27,11 @@ public class PaymentModel {
         this.id = id;
     }
 
-    public String getAccount() {
+    public AccountModel getAccount() {
         return account;
     }
 
-    public void setAccount(String account) {
+    public void setAccount(AccountModel account) {
         this.account = account;
     }
 
